@@ -23,4 +23,7 @@ public class Address {
     private String street;
     private String buildingNumber;
     private String flatNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Owner owner;
 }

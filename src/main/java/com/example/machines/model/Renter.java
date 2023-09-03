@@ -1,6 +1,7 @@
 package com.example.machines.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,8 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Renter {
+@Builder
+public class Renter  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

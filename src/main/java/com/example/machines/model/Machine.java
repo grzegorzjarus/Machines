@@ -19,8 +19,10 @@ public class Machine {
     @Enumerated(value = EnumType.STRING)
     private MachineType type;
 
+    private String name;
+
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Owner owner;
 }
