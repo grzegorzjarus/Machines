@@ -34,10 +34,13 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         //.requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest()
+//                        .hasRole("OWNER")
+                        .authenticated()
                 );
 
         http
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement((sessionManagement) ->
                         sessionManagement
                                 .sessionConcurrency((sessionConcurrency) ->
@@ -47,6 +50,7 @@ public class SecurityConfiguration {
                                 )
                 );
         http
+                .csrf(csrf -> csrf.disable())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
