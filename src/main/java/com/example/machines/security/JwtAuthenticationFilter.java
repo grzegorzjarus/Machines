@@ -47,7 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            jwt = authHeader.substring(7); //TOdo np. gson get value by field
+            jwt = authHeader.substring(8); //TOdo np. gson get value by field
+        //System.out.println(jwt);
             userEmail = jwtService.extractUserName(jwt);
             if(userEmail!= null && SecurityContextHolder.getContext().getAuthentication()==null){
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
