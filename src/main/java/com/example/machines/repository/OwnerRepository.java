@@ -13,4 +13,6 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     //void save(OfferByOwner offer);
     Owner save(Owner owner);
 
+
+
 }

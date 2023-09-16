@@ -45,6 +45,10 @@ public class Owner  {
     @OneToMany(cascade = CascadeType.ALL)
     List<OfferByOwner> offers;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
+
     public void addMachine(Machine machine){
         machines.add(machine);
     }

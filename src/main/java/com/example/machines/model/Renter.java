@@ -25,4 +25,8 @@ public class Renter  {
 
     @OneToOne
     private Address address;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
 }

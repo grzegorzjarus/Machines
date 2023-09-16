@@ -25,4 +25,7 @@ public class Machine {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Owner owner;
+
+    @Enumerated(value = EnumType.STRING)
+    private MachineStatus status;
 }

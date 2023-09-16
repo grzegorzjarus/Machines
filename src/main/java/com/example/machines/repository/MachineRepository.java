@@ -6,6 +6,7 @@ import com.example.machines.model.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,6 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
     Machine save(Machine machine);
 
     Machine findMachineByNameAndOwner(String name, Owner owner);
+
+    List<Machine> findAllByOwner(Owner owner);
 }

@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        //.requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/owner/**").permitAll()
                         .anyRequest()
 //                        .hasRole("OWNER")
                         .authenticated()
