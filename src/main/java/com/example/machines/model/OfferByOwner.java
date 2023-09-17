@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,11 @@ public class OfferByOwner {
 
     private Date startAvailabilityDate;
     private Date endAvailabilityDate;
+
+    private BigDecimal pricePerDay;
+    private BigDecimal deliveryPrice;
+
+    private boolean offerWithOperator;
 
     @OneToOne(cascade=CascadeType.ALL)
     private Machine machine;
