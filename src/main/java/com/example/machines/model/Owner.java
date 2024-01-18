@@ -27,9 +27,9 @@ public class Owner  {
     private String name;
     private String surname;
     private String companyName;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
 
     @NotEmpty(message = "Nie może być puste")
     private String phoneNumber;
@@ -45,9 +45,10 @@ public class Owner  {
     @OneToMany(cascade = CascadeType.ALL)
     List<OfferByOwner> offers;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    User user;
+
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     public void addMachine(Machine machine){
         machines.add(machine);

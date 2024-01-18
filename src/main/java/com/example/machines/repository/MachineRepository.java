@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MachineRepository extends JpaRepository<Machine, Long> {
@@ -17,5 +16,11 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
 
     Machine findMachineByNameAndOwner(String name, Owner owner);
 
-    List<Machine> findAllByOwner(Owner owner);
+    List<Machine> findAllMachinesByOwnerId(Long id);
+
+//    @Query("SELECT m FROM Machine m WHERE m.owner.Id = :ownerId")
+//    List<Machine> findAllByOwner(@Param("ownerId") Long ownerId);
+
+
+    Machine findMachineById(Long id);
 }

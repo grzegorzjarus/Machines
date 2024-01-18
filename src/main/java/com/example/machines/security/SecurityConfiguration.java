@@ -34,6 +34,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/owner/**").permitAll()
+                        .requestMatchers("/fetch-data").permitAll()
+                        .requestMatchers("/demo/*").permitAll()
                         .anyRequest()
 //                        .hasRole("OWNER")
                         .authenticated()
@@ -48,6 +50,7 @@ public class SecurityConfiguration {
                                                 .maximumSessions(1)
                                                 .expiredUrl("/login?expired")
                                 )
+
                 );
         http
                 .csrf(csrf -> csrf.disable())

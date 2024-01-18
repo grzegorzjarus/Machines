@@ -24,13 +24,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String firstName;
-    private String lastName;
+//    private String firstName;
+//    private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
 
-
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Owner owner;
+//
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Renter renter;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){

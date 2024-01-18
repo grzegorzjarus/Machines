@@ -17,16 +17,20 @@ public class Renter  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
+    private String email;
+
     private String name;
     private String surname;
     private String companyName;
     private String phoneNumber;
-    private String email;
+//    private String email;
 
     @OneToOne
     private Address address;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    User user;
+//
+//   @OneToOne
+//   @JoinColumn(name = "user_id")
+//   private User user;
+
 }

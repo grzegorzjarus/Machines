@@ -29,14 +29,14 @@ public class OwnerService {
         this.offerByOwnerRepository = offerByOwnerRepository;
     }
 
-    public OfferByOwner createOffer(Owner owner, Date startAvailabilityDate, Date endAvailabilityDate, String machineName) {
-        Machine machine = machineRepository.findMachineByNameAndOwner(machineName, owner);
-       //ownerRepository.save(owner);
-        OfferByOwner offer = createOfferByOwner(owner, startAvailabilityDate, endAvailabilityDate, machine);
-
-        offerByOwnerRepository.save(offer);
-        return offer;
-    }
+//    public OfferByOwner createOffer(Owner owner, Date startAvailabilityDate, Date endAvailabilityDate, String machineName) {
+//        Machine machine = machineRepository.findMachineByNameAndOwner(machineName, owner);
+//       //ownerRepository.save(owner);
+//        OfferByOwner offer = createOfferByOwner(owner, startAvailabilityDate, endAvailabilityDate, machine);
+//
+//        offerByOwnerRepository.save(offer);
+//        return offer;
+//    }
 
 
 }

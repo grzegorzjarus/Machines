@@ -2,6 +2,7 @@ package com.example.machines.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
 public class OfferByOwner {
 
     @Id
@@ -39,10 +41,13 @@ public class OfferByOwner {
     List<ResponseByRenter> responses;
 
 
-    public static OfferByOwner createOfferByOwner(Owner owner, Date start, Date end, Machine machineType) {
+    public static OfferByOwner createOfferByOwner(Owner owner, Date start, Date end, BigDecimal pricePerDay, BigDecimal deliveryPrice, boolean operator, Machine machineType) {
         return new OfferByOwner.Builder()
                 .setStartDate(start)
                 .setEndDate(end)
+                .setPricePerDay(pricePerDay)
+                .setDeliveryPrice(deliveryPrice)
+                .setOfferWithOperator(operator)
                 .setMachine(machineType)
                 .setOwner(owner)
                 .setResponses()
@@ -57,11 +62,22 @@ public class OfferByOwner {
         this.machine = builder.machine;
         this.owner = builder.owner;
         this.responses = builder.responsesByRenters;
+        this.offerWithOperator=builder.offerWithOperator;
+        this.deliveryPrice=builder.deliveryPrice;
+        this.pricePerDay=builder.pricePerDay;
+    }
+
+    public boolean getOfferWithOperator() {
+        return this.offerWithOperator;
     }
 
     public static class Builder {
         private Date startAvailabilityDate;
         private Date endAvailabilityDate;
+        private BigDecimal pricePerDay;
+        private BigDecimal deliveryPrice;
+
+        private boolean offerWithOperator;
         private Machine machine;
         private Owner owner;
         private List<ResponseByRenter> responsesByRenters;
@@ -73,6 +89,21 @@ public class OfferByOwner {
 
         public Builder setEndDate(Date end) {
             this.endAvailabilityDate = end;
+            return this;
+        }
+
+        public Builder setPricePerDay(BigDecimal price){
+            this.pricePerDay = price;
+            return this;
+        }
+
+        public Builder setDeliveryPrice(BigDecimal price){
+            this.deliveryPrice = price;
+            return this;
+        }
+
+        public Builder setOfferWithOperator(boolean operator){
+            this.offerWithOperator = operator;
             return this;
         }
 

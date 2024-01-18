@@ -1,8 +1,6 @@
 package com.example.machines.service;
 
-import com.example.machines.model.Address;
-import com.example.machines.model.Machine;
-import com.example.machines.model.Owner;
+import com.example.machines.model.*;
 import com.example.machines.repository.AddressRepository;
 import com.example.machines.repository.MachineRepository;
 import com.example.machines.repository.OwnerRepository;
@@ -43,12 +41,13 @@ public class MachineService {
 //                .build();
 //        ownerRepository.save(owner);
         machine.setOwner(ownerRepository.findOwnerById(1));
+        machine.setStatus(MachineStatus.FREE);
         machineRepository.save(machine);
         return machine;
     }
 
-    public List<Machine> getAllMachinesByOwner(Owner owner){
-        return machineRepository.findAllByOwner(owner);
+    public List<Machine> getAllMachinesByOwner(User user){
+        return machineRepository.findAllMachinesByOwnerId(user.getId());
 
     }
 
