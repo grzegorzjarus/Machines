@@ -39,15 +39,7 @@ public class MachineController {
     @Secured("OWNER")
     @PostMapping("/machines")
     public List<Machine> getMachines(@RequestBody String email){
-        //System.out.println( machineService.getAllMachinesByOwner(ownerRepository.findOwnerById(1)));
-        //machineService.getAllMachinesByOwner(ownerRepository.findOwnerById(1));
-        String formattedEmail = email.substring(1,email.length()-1);
-        System.out.println("Email from parametr : "+formattedEmail);
-        User user = userRepository.findUserByEmail(formattedEmail);
-        //Optional<Owner> owner = Optional.ofNullable(user.get().getOwner());
-        System.out.println("User from Controller: " +user);
-       // System.out.println(owner);
-        return machineService.getAllMachinesByOwner(user);
+        return machineService.getAllMachinesByOwner(email);
       //  return machineService.getAllMachinesByOwner(ownerRepository.findOwnerById(1));// Todo by session
     }
 }

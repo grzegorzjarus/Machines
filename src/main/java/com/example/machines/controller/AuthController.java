@@ -1,5 +1,8 @@
 package com.example.machines.controller;
 
+import com.example.machines.pojo.AuthenticationRequest;
+import com.example.machines.pojo.AuthenticationResponse;
+import com.example.machines.pojo.RegisterRequest;
 import com.example.machines.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

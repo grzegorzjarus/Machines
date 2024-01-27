@@ -26,13 +26,15 @@ public class OfferByOwnerService {
         this.machineRepository = machineRepository;
     }
     @Transactional
-    public void createNewOffer(OfferByOwner offer , long machineId) {
+    public void createNewOffer(OfferByOwner offer , String email, long machineId) {
         List<ResponseByRenter> responses = new ArrayList<>();
         offer.setResponses(responses);
         System.out.println("Maszyna o ID: " +machineId);
+        System.out.println("Oferta z kontrolera" + offer);
+        System.out.println("Email z kontrolera" + email);
 
 
-        offer.setOwner(ownerRepository.findOwnerById(1));
+        offer.setOwner(ownerRepository.findOwnerByEmail(email));
         Machine machine = machineRepository.findMachineById(machineId);
         offer.setMachine(machine);
         machine.setStatus(MachineStatus.ON_AUCTION);
@@ -46,5 +48,9 @@ public class OfferByOwnerService {
         machineRepository.findMachineById(machineId).setStatus(MachineStatus.FREE);
         offerByOwnerRepository.deleteOfferByMachineId(machineId);
 
+    }
+
+    public List<OfferByOwner> getAllOffer(){
+        return offerByOwnerRepository.findAll();
     }
 }

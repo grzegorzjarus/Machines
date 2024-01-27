@@ -1,14 +1,16 @@
 package com.example.machines.controller;
 
 import com.example.machines.model.OfferByOwner;
+import com.example.machines.pojo.OfferAndEmailDTO;
 import com.example.machines.repository.OwnerRepository;
 import com.example.machines.service.MachineService;
 import com.example.machines.service.OfferByOwnerService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpRequest;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Transactional
@@ -28,19 +30,27 @@ public class OfferByOwnerController {
 
     @PostMapping(value = "/create/{machineId}", consumes = "application/json")
     @Secured("OWNER")
-    public String createOffer(@RequestBody OfferByOwner offer, @PathVariable long machineId) {
-        offerByOwnerService.createNewOffer(offer, machineId);
-        System.out.println("machineid = " +machineId);
-       // offerByOwnerService.createNewOffer(offer, Long.parseLong(machineId.substring(1,10)));
+    public String createOffer(@RequestBody OfferAndEmailDTO offerAndEmail, @PathVariable long machineId) {
+       String email= offerAndEmail.getEmail().getEmail();
+        System.out.println("Email from controller" + email);
+        offerByOwnerService.createNewOffer(offerAndEmail.getOffer(),email, machineId);
+        System.out.println("machineid = " + machineId);
+        LoggerFactory.getLogger(getClass());
+        // offerByOwnerService.createNewOffer(offer, Long.parseLong(machineId.substring(1,10)));
         return "Dodano nową ofertę";
     }
 
     @DeleteMapping(value = "/delete/{machineId}", consumes = "application/json")
     @Secured("OWNER")
-    public String deleteOffer(@PathVariable long machineId){
+    public String deleteOffer(@PathVariable long machineId) {
         offerByOwnerService.deleteOffer(machineId);
         return "Usunięto ofertę";
     }
 
+    @GetMapping("/renter/offer")
+    public List<OfferByOwner> getAllOffer() {
+        return offerByOwnerService.getAllOffer();
+
+    }
 
 }

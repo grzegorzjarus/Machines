@@ -1,8 +1,8 @@
 package com.example.machines.service;
 
-import com.example.machines.controller.AuthenticationRequest;
-import com.example.machines.controller.AuthenticationResponse;
-import com.example.machines.controller.RegisterRequest;
+import com.example.machines.pojo.AuthenticationRequest;
+import com.example.machines.pojo.AuthenticationResponse;
+import com.example.machines.pojo.RegisterRequest;
 import com.example.machines.model.Owner;
 import com.example.machines.model.Renter;
 import com.example.machines.model.Role;

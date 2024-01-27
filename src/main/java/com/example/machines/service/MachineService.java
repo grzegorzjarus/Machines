@@ -21,7 +21,7 @@ public class MachineService {
         this.addressRepository = addressRepository;
     }
 
-    public Machine addMachine(Machine machine){
+    public Machine addMachine(Machine machine) {
 //        Address address = new Address();
 //        address.setCountry("Polandd");
 //        address.setRegion("Dolnośląskie");
@@ -46,9 +46,17 @@ public class MachineService {
         return machine;
     }
 
-    public List<Machine> getAllMachinesByOwner(User user){
-        return machineRepository.findAllMachinesByOwnerId(user.getId());
+    //    public List<Machine> getAllMachinesByOwner(User user){
+//        return machineRepository.findAllMachinesByOwnerId(user.getId());
+//
+//    }
+    public List<Machine> getAllMachinesByOwner(String email) {
+        String formattedEmail = email.substring(1, email.length() - 1);
+        Owner owner = ownerRepository.findOwnerByEmail(formattedEmail);
+
+        return machineRepository.findAllMachinesByOwnerId(owner.getId());
 
     }
+
 
 }

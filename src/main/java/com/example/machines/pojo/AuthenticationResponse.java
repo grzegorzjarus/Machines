@@ -1,4 +1,4 @@
-package com.example.machines.controller;
+package com.example.machines.pojo;
 
 import com.example.machines.model.User;
 import lombok.AllArgsConstructor;
