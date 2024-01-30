@@ -41,6 +41,7 @@ public class OfferByOwnerService {
         machineRepository.save(machine);
         System.out.println("Oferta: "+offer);
 
+
         offerByOwnerRepository.save(offer);
     }
 

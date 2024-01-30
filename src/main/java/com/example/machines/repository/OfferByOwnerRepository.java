@@ -17,6 +17,8 @@ public interface OfferByOwnerRepository extends JpaRepository<OfferByOwner, Long
 
     OfferByOwner save(OfferByOwner offer);
 
+    OfferByOwner findOfferById(long id);
+
 
     @Modifying
     @Query("DELETE FROM OfferByOwner o WHERE o.machine.id = :machineId")

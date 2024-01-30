@@ -23,8 +23,8 @@ public class ResponseByRenter {
     @OneToOne
     private Renter renter;
 
-    @OneToOne
-    private Machine machine;
+//    @OneToOne
+//    private Machine machine;
 
     @ManyToOne
     private OfferByOwner offer;
