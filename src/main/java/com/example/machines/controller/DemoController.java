@@ -2,6 +2,7 @@ package com.example.machines.controller;
 
 import com.example.machines.model.Machine;
 import com.example.machines.model.User;
+import com.example.machines.pojo.MachineDTO;
 import com.example.machines.repository.OwnerRepository;
 import com.example.machines.repository.UserRepository;
 import com.example.machines.service.MachineService;
@@ -32,9 +33,9 @@ public class DemoController {
 
     @Secured("OWNER")
     @PostMapping("/machine/add")
-    public String addMachine(@RequestBody Machine machine){
+    public String addMachine(@RequestBody MachineDTO machine){
         System.out.println(machine);
-        machineService.addMachine(machine);
+        //machineService.addMachine(machine);
         return "Dodano maszynę";
     }
 //    @Secured("OWNER")

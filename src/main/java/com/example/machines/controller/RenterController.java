@@ -14,6 +14,7 @@ import java.util.List;
 @CrossOrigin(originPatterns = "*")
 @Transactional
 @RequestMapping("/renter")
+@Secured("RENTER")
 public class RenterController {
 
 
@@ -32,8 +33,8 @@ public class RenterController {
     }
 
     @PostMapping("/offer/response")
-
     public String sendResponseToOffer(@RequestBody ResponseToOfferDTO response){
+        System.out.println("/renter/offer/response " + response.getOfferId());
         renterService.sendRequestToOffer(response);
         return "Dodano zapytanie";
     }

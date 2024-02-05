@@ -10,11 +10,15 @@ import com.example.machines.repository.OwnerRepository;
 import com.example.machines.repository.RenterRepository;
 import com.example.machines.repository.UserRepository;
 import com.example.machines.security.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 
 
 import com.example.machines.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +34,9 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final OwnerRepository ownerRepository;
     private final RenterRepository renterRepository;
+
+    @Autowired
+    private final HttpSession session;
 
     public AuthenticationResponse register(RegisterRequest request) {
 
@@ -73,6 +80,7 @@ public class AuthenticationService {
                     .phoneNumber(request.getPhoneNumber())
                     .companyName(request.getCompanyName())
                     .build();
+            System.out.println("Utworzono użytkowniak o roli RENTER "+ renter.getCompanyName());
 
             renterRepository.save(renter);
         }
@@ -88,7 +96,12 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletRequest request2) {
+        // HttpSession session = request2.getSession();
+        session.setMaxInactiveInterval(1000*60*10);// 10 minutes
+        session.setAttribute("email", request.getEmail());
+       String email = (String) session.getAttribute("email");
+        System.out.println("Email after login from session: "+ email);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

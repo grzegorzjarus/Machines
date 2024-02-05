@@ -4,7 +4,10 @@ import com.example.machines.pojo.AuthenticationRequest;
 import com.example.machines.pojo.AuthenticationResponse;
 import com.example.machines.pojo.RegisterRequest;
 import com.example.machines.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin
 public class AuthController {
+
     private final AuthenticationService authenticationService;
 
 
@@ -27,10 +31,10 @@ public class AuthController {
     }
 
     @PostMapping(value = "/authenticate", consumes = {"application/json"})
-    public ResponseEntity<AuthenticationResponse> authenticate (@RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> authenticate (@RequestBody AuthenticationRequest request, HttpServletRequest request2){
 
         
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        return ResponseEntity.ok(authenticationService.authenticate(request,request2));
     }
 }
 

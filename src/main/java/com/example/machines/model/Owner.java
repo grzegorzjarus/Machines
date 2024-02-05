@@ -1,16 +1,12 @@
 package com.example.machines.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,7 +18,7 @@ public class Owner  {
 
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private long id;
 
     private String name;
     private String surname;
@@ -40,9 +36,11 @@ public class Owner  {
     private Address address;
 
     @OneToMany(cascade=CascadeType.ALL)
+    @JsonIgnore // to avoid infinite loop between entities
     List<Machine> machines;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     List<OfferByOwner> offers;
 
 
@@ -52,6 +50,31 @@ public class Owner  {
 
     public void addMachine(Machine machine){
         machines.add(machine);
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                // ... other fields
+                ", machines=" + getMachineListSummary() +
+                '}';
+    }
+
+    private String getMachineListSummary() {
+        if (machines == null) {
+            return "null";
+        }
+        StringBuilder summary = new StringBuilder("[");
+        for (Machine machine : machines) {
+            summary.append("{id=").append(machine.getId()).append(", type=").append(machine.getType()).append("}, ");
+        }
+        if (machines.size() > 0) {
+            summary.setLength(summary.length() - 2); // Remove the trailing comma and space
+        }
+        summary.append("]");
+        return summary.toString();
     }
 
     public Machine getMachineByName(String name){

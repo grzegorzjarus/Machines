@@ -16,11 +16,12 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
 
     Machine findMachineByNameAndOwner(String name, Owner owner);
 
-    List<Machine> findAllMachinesByOwnerId(Long id);
+    List<Machine> findAllMachinesByOwnerEmail(String email);
 
 //    @Query("SELECT m FROM Machine m WHERE m.owner.Id = :ownerId")
 //    List<Machine> findAllByOwner(@Param("ownerId") Long ownerId);
 
+    Machine findMachineById(long id);
 
-    Machine findMachineById(Long id);
+    List<Machine> findAllMachinesByOwner(Owner owner);
 }

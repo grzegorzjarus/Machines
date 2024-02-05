@@ -1,9 +1,7 @@
 package com.example.machines.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import jakarta.persistence.*;
 
@@ -38,6 +36,7 @@ public class OfferByOwner {
     private Owner owner;
 
     @OneToMany
+    @JsonIgnore
     List<ResponseByRenter> responses;
 
 

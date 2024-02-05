@@ -1,6 +1,10 @@
 package com.example.machines.pojo;
 
+import lombok.ToString;
+
+@ToString
 public class EmailDTO {
+
     private String email;
 
 

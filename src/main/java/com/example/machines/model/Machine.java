@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +29,20 @@ public class Machine {
 
     @Enumerated(value = EnumType.STRING)
     private MachineStatus status;
-}
+
+    @Override
+    public String toString() {
+        return "Machine{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                // ... other fields
+                ", owner=" + getOwnerSummary() +
+                '}';
+    }
+
+    private String getOwnerSummary() {
+        if (owner == null) {
+            return "null";
+        }
+        return "{id=" + owner.getId() + ", name=" + owner.getName() + "}";}
+    }

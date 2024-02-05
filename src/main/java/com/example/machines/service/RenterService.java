@@ -25,7 +25,9 @@ public class RenterService {
         responseByRenter.setRenter(renterRepository.findRenterByEmail(response.getEmail()));
         responseByRenter.setStartRentDate(response.getStart());
         responseByRenter.setEndRentDate(response.getEnd());
+        responseByRenter.setPrice(response.getPrice());
         OfferByOwner offer = offerByOwnerRepository.findOfferById(response.getOfferId());
+        System.out.println("Add response: " + offer.getStartAvailabilityDate());
         offer.getResponses().add(responseByRenter);
         responseByRenter.setOffer(offer);
         responseByRenterRepository.save(responseByRenter);

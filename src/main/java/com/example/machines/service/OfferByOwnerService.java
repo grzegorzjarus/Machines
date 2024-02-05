@@ -7,6 +7,7 @@ import com.example.machines.model.ResponseByRenter;
 import com.example.machines.repository.MachineRepository;
 import com.example.machines.repository.OfferByOwnerRepository;
 import com.example.machines.repository.OwnerRepository;
+import com.example.machines.repository.ResponseByRenterRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +20,23 @@ public class OfferByOwnerService {
     private final OfferByOwnerRepository offerByOwnerRepository;
     private final OwnerRepository ownerRepository;
     private final MachineRepository machineRepository;
+    private final ResponseByRenterRepository responseByRenterRepository;
 
-    public OfferByOwnerService(OfferByOwnerRepository offerByOwnerRepository, OwnerRepository ownerRepository, MachineRepository machineRepository) {
+    public OfferByOwnerService(OfferByOwnerRepository offerByOwnerRepository, OwnerRepository ownerRepository, MachineRepository machineRepository, ResponseByRenterRepository responseByRenterRepository) {
         this.offerByOwnerRepository = offerByOwnerRepository;
         this.ownerRepository = ownerRepository;
         this.machineRepository = machineRepository;
+        this.responseByRenterRepository = responseByRenterRepository;
     }
     @Transactional
     public void createNewOffer(OfferByOwner offer , String email, long machineId) {
         List<ResponseByRenter> responses = new ArrayList<>();
         offer.setResponses(responses);
         System.out.println("Maszyna o ID: " +machineId);
-        System.out.println("Oferta z kontrolera" + offer);
-        System.out.println("Email z kontrolera" + email);
+        //System.out.println("Oferta z serwisu " + offer);
+        System.out.println("Email z serwisu " + email);
+
+        String formattedEmail = email.substring(1, email.length() - 1);
 
 
         offer.setOwner(ownerRepository.findOwnerByEmail(email));
@@ -53,5 +58,15 @@ public class OfferByOwnerService {
 
     public List<OfferByOwner> getAllOffer(){
         return offerByOwnerRepository.findAll();
+    }
+
+    public List<ResponseByRenter> getOfferResponses(long offerId) {
+        OfferByOwner offer = offerByOwnerRepository.findOfferById(offerId);
+        System.out.println(offer.getOwner().getEmail());
+        System.out.println(offer.getOwner().getName());
+        System.out.println(offer.getOwner().getCompanyName());
+        //System.out.println(offer.getResponses());
+      return responseByRenterRepository.findAllByOfferId(offerId);
+
     }
 }

@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/owner/**").permitAll()
                         .requestMatchers("/fetch-data").permitAll()
                         .requestMatchers("/demo/*").permitAll()
-                        .requestMatchers("/renter/**").permitAll()
+                      //  .requestMatchers("/renter/**").permitAll()
                         .anyRequest()
 //                        .hasRole("OWNER")
                         .authenticated()

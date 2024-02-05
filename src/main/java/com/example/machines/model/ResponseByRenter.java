@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+import lombok.ToString;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -19,6 +22,8 @@ public class ResponseByRenter {
 
     private Date startRentDate;
     private Date endRentDate;
+
+    private BigDecimal price;
 
     @OneToOne
     private Renter renter;

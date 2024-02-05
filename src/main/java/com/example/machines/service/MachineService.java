@@ -1,9 +1,13 @@
 package com.example.machines.service;
 
 import com.example.machines.model.*;
+import com.example.machines.pojo.MachineDTO;
 import com.example.machines.repository.AddressRepository;
 import com.example.machines.repository.MachineRepository;
 import com.example.machines.repository.OwnerRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,34 +19,31 @@ public class MachineService {
     private final OwnerRepository ownerRepository; // Todo by session
     private final AddressRepository addressRepository;
 
-    public MachineService(MachineRepository machineRepository, OwnerRepository ownerRepository, AddressRepository addressRepository) {
+    @Autowired
+    private final HttpSession session;
+
+    public MachineService(MachineRepository machineRepository, OwnerRepository ownerRepository, AddressRepository addressRepository, HttpSession session) {
         this.machineRepository = machineRepository;
         this.ownerRepository = ownerRepository;
         this.addressRepository = addressRepository;
+        this.session = session;
     }
 
-    public Machine addMachine(Machine machine) {
-//        Address address = new Address();
-//        address.setCountry("Polandd");
-//        address.setRegion("Dolnośląskie");
-//        address.setCity("Wrocław");
-//        address.setStreet("Rychtalska");
-//        address.setBuildingNumber("2A");
-//        address.setFlatNumber("-");
-//        address.setPostalCode("50-304");
-//        addressRepository.save(address);
-//        Owner owner = Owner.builder()
-//                .email("mail")
-//                .address(address)
-//                .surname("litwin")
-//                .name("Daniel")
-//                .companyName("Ti mobajl")
-//                .phoneNumber("796 435 802")
-//                .build();
-//        ownerRepository.save(owner);
-        machine.setOwner(ownerRepository.findOwnerById(1));
+    public Machine addMachine(MachineDTO machineDTO, HttpServletRequest request) {
+
+        Machine machine = machineDTO.getMachine();
+        String email =   machineDTO.getEmail().getEmail();
+        System.out.println("Email:"+email);
+        //Owner owner = ownerRepository.findOwnerByEmail(email+".");
+        //HttpSession httpSession= request.getSession();
+//        String emailFromSession = (String) session.getAttribute("email");
+//        System.out.println("Email form session " + emailFromSession);
+        Owner owner = ownerRepository.findOwnerByEmail(email);
+        machine.setOwner(owner);
         machine.setStatus(MachineStatus.FREE);
+        owner.getMachines().add(machine);
         machineRepository.save(machine);
+        //ownerRepository.save(owner);
         return machine;
     }
 
@@ -51,10 +52,13 @@ public class MachineService {
 //
 //    }
     public List<Machine> getAllMachinesByOwner(String email) {
+        System.out.println("Email form service:" + email);
         String formattedEmail = email.substring(1, email.length() - 1);
         Owner owner = ownerRepository.findOwnerByEmail(formattedEmail);
+        System.out.println(owner.getCompanyName());
 
-        return machineRepository.findAllMachinesByOwnerId(owner.getId());
+        //return machineRepository.findAllMachinesByOwnerEmail(email);
+        return machineRepository.findAllMachinesByOwner(owner);
 
     }
 

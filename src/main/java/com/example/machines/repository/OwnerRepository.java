@@ -12,9 +12,10 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     Owner findOwnerById(long id);
 
     Owner findOwnerByEmail(String email);
-    //void save(OfferByOwner offer);
-    Owner save(Owner owner);
+    void save(OfferByOwner offer);
+    //Owner save(Owner owner);
 
 
+  //  Owner update(Owner owner);
 
 }
