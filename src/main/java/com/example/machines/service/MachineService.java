@@ -58,7 +58,8 @@ public class MachineService {
         System.out.println(owner.getCompanyName());
 
         //return machineRepository.findAllMachinesByOwnerEmail(email);
-        return machineRepository.findAllMachinesByOwner(owner);
+       // return machineRepository.findAllMachinesByOwner(owner);
+        return owner.getMachines();
 
     }
 

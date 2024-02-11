@@ -32,12 +32,16 @@ public class OfferByOwner {
     @OneToOne(cascade=CascadeType.ALL)
     private Machine machine;
 
+    @Enumerated(value = EnumType.STRING)
+    private OfferStatus status;
+
     @ManyToOne(cascade=CascadeType.ALL)
     private Owner owner;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JsonIgnore
     List<ResponseByRenter> responses;
+
 
 
     public static OfferByOwner createOfferByOwner(Owner owner, Date start, Date end, BigDecimal pricePerDay, BigDecimal deliveryPrice, boolean operator, Machine machineType) {

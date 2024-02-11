@@ -16,6 +16,7 @@ public interface OfferByOwnerRepository extends JpaRepository<OfferByOwner, Long
 
 
     OfferByOwner save(OfferByOwner offer);
+   // OfferByOwner update(OfferByOwner offer);
 
     OfferByOwner findOfferById(long id);
 
@@ -25,4 +26,12 @@ public interface OfferByOwnerRepository extends JpaRepository<OfferByOwner, Long
     void deleteOfferByMachineId(@Param("machineId") long machineId);
 
     List<OfferByOwner> findAll();
+
+    @Query("select o from OfferByOwner o where o.owner.id= :ownerId and o.status='ON_AUCTION'")
+    List<OfferByOwner> findAllOnAuctionOfferByOwner(@Param("ownerId") long ownerId);
+
+//    @Query("select o from OfferByOwner o where o.owner.id= :ownerId and o.status='ON_AUCTION'")
+//    List<OfferByOwner> findResponsesByOfferId(@Param("ownerId") long ownerId);
+
+  //  List<OfferByOwner> findAllOnAuctionOfferByOwner(@Param("ownerId") long ownerId);
 }

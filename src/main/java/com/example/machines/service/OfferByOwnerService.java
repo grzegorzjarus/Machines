@@ -1,9 +1,6 @@
 package com.example.machines.service;
 
-import com.example.machines.model.Machine;
-import com.example.machines.model.MachineStatus;
-import com.example.machines.model.OfferByOwner;
-import com.example.machines.model.ResponseByRenter;
+import com.example.machines.model.*;
 import com.example.machines.repository.MachineRepository;
 import com.example.machines.repository.OfferByOwnerRepository;
 import com.example.machines.repository.OwnerRepository;
@@ -42,6 +39,7 @@ public class OfferByOwnerService {
         offer.setOwner(ownerRepository.findOwnerByEmail(email));
         Machine machine = machineRepository.findMachineById(machineId);
         offer.setMachine(machine);
+        offer.setStatus(OfferStatus.ON_AUCTION);
         machine.setStatus(MachineStatus.ON_AUCTION);
         machineRepository.save(machine);
         System.out.println("Oferta: "+offer);
@@ -69,4 +67,25 @@ public class OfferByOwnerService {
       return responseByRenterRepository.findAllByOfferId(offerId);
 
     }
+
+    public List<OfferByOwner> getAllOnAuctionOfferByOwner(String email) {
+        //String formattedEmail = email.substring(10, email.length() - 2);
+        String formattedEmail = email.substring(1, email.length() - 1);
+        System.out.println("email from active "+ email);
+        System.out.println("Formatted email from active "+ formattedEmail);
+       long id =  ownerRepository.findOwnerByEmail(formattedEmail).getId();
+
+       List<OfferByOwner> list = offerByOwnerRepository.findAllOnAuctionOfferByOwner(id);
+        for (OfferByOwner offer : list) {
+            ResponseByRenter response = offer.getResponses().get(0);
+            System.out.println(response.getPrice());
+        }
+        return list;
+
+//       return offerByOwnerRepository.findAllOnAuctionOfferByOwner(id);
+    }
+
+//    public List<ResponseByRenter> getResponsesByOfferId(long id) {
+//        return null;
+//    }
 }

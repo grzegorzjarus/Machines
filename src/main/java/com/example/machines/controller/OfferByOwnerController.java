@@ -4,6 +4,7 @@ import com.example.machines.model.OfferByOwner;
 import com.example.machines.model.ResponseByRenter;
 import com.example.machines.pojo.OfferAndEmailDTO;
 import com.example.machines.repository.OwnerRepository;
+import com.example.machines.repository.ResponseByRenterRepository;
 import com.example.machines.service.MachineService;
 import com.example.machines.service.OfferByOwnerService;
 import jakarta.transaction.Transactional;
@@ -23,11 +24,13 @@ public class OfferByOwnerController {
 
     private final MachineService machineService;
     private final OfferByOwnerService offerByOwnerService;
+    private final ResponseByRenterRepository responseByRenterRepository;
 
-    public OfferByOwnerController(MachineService machineService, OwnerRepository ownerRepository, OfferByOwnerService offerByOwnerService) {
+    public OfferByOwnerController(MachineService machineService, OwnerRepository ownerRepository, OfferByOwnerService offerByOwnerService, ResponseByRenterRepository responseByRenterRepository) {
         this.machineService = machineService;
 
         this.offerByOwnerService = offerByOwnerService;
+        this.responseByRenterRepository = responseByRenterRepository;
     }
 
     @PostMapping(value = "/create/{machineId}", consumes = "application/json")
@@ -58,6 +61,20 @@ public class OfferByOwnerController {
     public List<ResponseByRenter> getResponses(@PathVariable long offerId){
        return offerByOwnerService.getOfferResponses(offerId);
     }
+
+    @PostMapping(value="/active", produces = "application/json")
+    public List<OfferByOwner> getAllOnAuctionOfferByOwner(@RequestBody String email){
+
+        return offerByOwnerService.getAllOnAuctionOfferByOwner(email);
+    }
+
+    @GetMapping("/active/{offerId}")
+    public List<ResponseByRenter> getResponsesByOfferId(@PathVariable long id, @PathVariable String offerId){
+        return  responseByRenterRepository.findAllByOfferId(Long.parseLong(offerId));
+    }
+
+
+
     @GetMapping("/responses/get")
     public ResponseEntity<String> test(){
         return ResponseEntity.ok("Test zdany");
