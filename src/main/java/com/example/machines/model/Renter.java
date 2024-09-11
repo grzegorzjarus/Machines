@@ -1,8 +1,13 @@
 package com.example.machines.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,10 +25,13 @@ public class Renter  {
     private String surname;
     private String companyName;
     private String phoneNumber;
-//    private String email;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @OneToMany(mappedBy = "renter", cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    private List<ResponseByRenter> responses;
 
 //
 //   @OneToOne

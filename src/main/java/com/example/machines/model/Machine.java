@@ -1,11 +1,16 @@
 package com.example.machines.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 import lombok.ToString;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,11 +29,22 @@ public class Machine {
 
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    //@JsonBackReference
+    // @JsonIgnore
     private Owner owner;
 
     @Enumerated(value = EnumType.STRING)
     private MachineStatus status;
+
+    @OneToOne(mappedBy = "machine")
+   // @JsonBackReference
+
+    private OfferByOwner offer;
+
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    List<OfferByOwner> offers;
 
     @Override
     public String toString() {
@@ -44,5 +60,6 @@ public class Machine {
         if (owner == null) {
             return "null";
         }
-        return "{id=" + owner.getId() + ", name=" + owner.getName() + "}";}
+        return "{id=" + owner.getId() + ", name=" + owner.getName() + "}";
     }
+}

@@ -1,5 +1,8 @@
 package com.example.machines.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +12,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,12 +29,17 @@ public class ResponseByRenter {
 
     private BigDecimal price;
 
-    @OneToOne
+    @Enumerated(value = EnumType.STRING)
+    private ResponseByRenterStatus status;
+
+
+    @ManyToOne
+    @JoinColumn(name = "renter_id")
+    //@JsonBackReference
     private Renter renter;
 
-//    @OneToOne
-//    private Machine machine;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
+    //@JsonBackReference
     private OfferByOwner offer;
 }

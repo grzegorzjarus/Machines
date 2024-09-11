@@ -8,5 +8,8 @@ import java.util.List;
 public interface ResponseByRenterRepository extends JpaRepository<ResponseByRenter, Long> {
 
     ResponseByRenter save(ResponseByRenter save);
+
+    ResponseByRenter findResponseById(long id);
+
     List<ResponseByRenter> findAllByOfferId(long offerId);
 }

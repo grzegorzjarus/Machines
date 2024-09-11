@@ -1,7 +1,9 @@
 package com.example.machines.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -35,13 +37,15 @@ public class Owner  {
     @OneToOne(cascade=CascadeType.ALL)
     private Address address;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JsonIgnore // to avoid infinite loop between entities
-    List<Machine> machines;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    @JsonIgnore
+    private List<Machine> machines;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    List<OfferByOwner> offers;
+   // @JsonManagedReference
+    //@JsonIgnore
+    private List<OfferByOwner> offers;
 
 
 //    @OneToOne

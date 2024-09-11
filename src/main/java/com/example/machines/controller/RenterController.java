@@ -35,7 +35,7 @@ public class RenterController {
     @PostMapping("/offer/response")
     public String sendResponseToOffer(@RequestBody ResponseToOfferDTO response){
         System.out.println("/renter/offer/response " + response.getOfferId());
-        renterService.sendRequestToOffer(response);
-        return "Dodano zapytanie";
+       return renterService.sendRequestToOffer(response);
+        //return "Dodano zapytanie";
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 @Transactional
 //@CrossOrigin(originPatterns = "*")
 @CrossOrigin
+@Secured("OWNER")
 @RequestMapping("/owner/offer")
 public class OfferByOwnerController {
 
@@ -28,13 +29,12 @@ public class OfferByOwnerController {
 
     public OfferByOwnerController(MachineService machineService, OwnerRepository ownerRepository, OfferByOwnerService offerByOwnerService, ResponseByRenterRepository responseByRenterRepository) {
         this.machineService = machineService;
-
         this.offerByOwnerService = offerByOwnerService;
         this.responseByRenterRepository = responseByRenterRepository;
     }
 
-    @PostMapping(value = "/create/{machineId}", consumes = "application/json")
-    @Secured("OWNER")
+    @PostMapping(value = "/create/{machineId}", consumes = "application/json", produces = "application/json")
+   // @Secured("OWNER")
     public String createOffer(@RequestBody OfferAndEmailDTO offerAndEmail, @PathVariable long machineId) {
        String email= offerAndEmail.getEmail().getEmail();
         System.out.println("Email from controller" + email);
@@ -46,38 +46,33 @@ public class OfferByOwnerController {
     }
 
     @DeleteMapping(value = "/delete/{machineId}", consumes = "application/json")
-    @Secured("OWNER")
+  //  @Secured("OWNER")
     public String deleteOffer(@PathVariable long machineId) {
         offerByOwnerService.deleteOffer(machineId);
         return "Usunięto ofertę";
     }
-//
-//    @GetMapping("/renter/offer")
-//    public List<OfferByOwner> getAllOffer() {
-//        return offerByOwnerService.getAllOffer();
-//
-//    }
-    @GetMapping(value = "/{offerId}/responses", produces = "application/json")
+
+    @GetMapping(value = "/active/{offerId}/responses", produces = "application/json")
     public List<ResponseByRenter> getResponses(@PathVariable long offerId){
        return offerByOwnerService.getOfferResponses(offerId);
     }
 
+    @PostMapping(value="/active/{offerId}/responses/{responseId}", produces = "application/json")
+    public String acceptResponse(@PathVariable long offerId, @PathVariable long responseId){
+        return offerByOwnerService.acceptResponse(offerId,responseId);
+    }
+
     @PostMapping(value="/active", produces = "application/json")
     public List<OfferByOwner> getAllOnAuctionOfferByOwner(@RequestBody String email){
-
         return offerByOwnerService.getAllOnAuctionOfferByOwner(email);
     }
 
     @GetMapping("/active/{offerId}")
-    public List<ResponseByRenter> getResponsesByOfferId(@PathVariable long id, @PathVariable String offerId){
+    public List<ResponseByRenter> getResponsesByOfferId(@PathVariable String offerId){
         return  responseByRenterRepository.findAllByOfferId(Long.parseLong(offerId));
     }
 
 
 
-    @GetMapping("/responses/get")
-    public ResponseEntity<String> test(){
-        return ResponseEntity.ok("Test zdany");
-    }
 
 }

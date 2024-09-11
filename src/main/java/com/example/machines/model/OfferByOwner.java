@@ -1,6 +1,8 @@
 package com.example.machines.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -29,18 +31,26 @@ public class OfferByOwner {
 
     private boolean offerWithOperator;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+   // @JsonIgnore /// when I removed this annotation I fixed error with fetching OfferByOwner with Machine
+    //@JsonManagedReference
     private Machine machine;
+
+//    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+//    @JsonIgnore /// when I removed this annotation I fixed error with fetching OfferByOwner with Machine
+//    private Machine machine;
 
     @Enumerated(value = EnumType.STRING)
     private OfferStatus status;
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    private Owner owner;
+    @ManyToOne()
+    //@JsonBackReference()
+    Owner owner;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JsonIgnore
-    List<ResponseByRenter> responses;
+   // @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JsonManagedReference()
+    private List<ResponseByRenter> responses;
 
 
 

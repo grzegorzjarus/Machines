@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,8 +33,8 @@ public class MachineService {
     public Machine addMachine(MachineDTO machineDTO, HttpServletRequest request) {
 
         Machine machine = machineDTO.getMachine();
-        String email =   machineDTO.getEmail().getEmail();
-        System.out.println("Email:"+email);
+        String email = machineDTO.getEmail().getEmail();
+        System.out.println("Email:" + email);
         //Owner owner = ownerRepository.findOwnerByEmail(email+".");
         //HttpSession httpSession= request.getSession();
 //        String emailFromSession = (String) session.getAttribute("email");
@@ -57,11 +58,27 @@ public class MachineService {
         Owner owner = ownerRepository.findOwnerByEmail(formattedEmail);
         System.out.println(owner.getCompanyName());
 
+        //  System.out.println(owner.getMachines().get);
+
         //return machineRepository.findAllMachinesByOwnerEmail(email);
-       // return machineRepository.findAllMachinesByOwner(owner);
+        // return machineRepository.findAllMachinesByOwner(owner);
         return owner.getMachines();
 
     }
 
 
+    public ResponseByRenter getEndDateFromResponseFromOfferByMachineId(long machineId) {
+        Machine machine = machineRepository.findMachineById(machineId);
+        //System.out.println("TestgetEndDateFromResponseFromOfferByMachineId(long machineId) " + machine.getOffer().getDeliveryPrice());
+        List<ResponseByRenter> responses = null;//machine.getOffer().getResponses();
+        ResponseByRenter respons = new ResponseByRenter();
+        for (ResponseByRenter response : responses) {
+            if (response.getStatus() == ResponseByRenterStatus.RENTER) {
+                System.out.println(response.getEndRentDate());
+                respons=response;
+                return response;
+            }
+        }
+        return respons;
+    }
 }

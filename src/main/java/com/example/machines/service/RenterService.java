@@ -3,12 +3,15 @@ package com.example.machines.service;
 import com.example.machines.model.OfferByOwner;
 import com.example.machines.model.Renter;
 import com.example.machines.model.ResponseByRenter;
+import com.example.machines.model.ResponseByRenterStatus;
 import com.example.machines.pojo.ResponseToOfferDTO;
 import com.example.machines.repository.OfferByOwnerRepository;
 import com.example.machines.repository.RenterRepository;
 import com.example.machines.repository.ResponseByRenterRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RenterService {
@@ -22,7 +25,7 @@ public class RenterService {
         this.responseByRenterRepository = responseByRenterRepository;
     }
 
-//    public String sendRequestToOffer(ResponseToOfferDTO response){
+    //    public String sendRequestToOffer(ResponseToOfferDTO response){
 //        ResponseByRenter responseByRenter = new ResponseByRenter();
 //        responseByRenter.setRenter(renterRepository.findRenterByEmail(response.getEmail()));
 //        responseByRenter.setStartRentDate(response.getStart());
@@ -40,38 +43,50 @@ public class RenterService {
 //
 //        return "Dodano zapytanie";
 //    }
-    @Transactional
-public String sendRequestToOffer(ResponseToOfferDTO response){
-    Renter renter = renterRepository.findRenterByEmail(response.getEmail());
-    OfferByOwner offer = offerByOwnerRepository.findOfferById(response.getOfferId());
+    //@Transactional
+    public String sendRequestToOffer(ResponseToOfferDTO response) {
+        Renter renter = renterRepository.findRenterByEmail(response.getEmail());
+        OfferByOwner offer = offerByOwnerRepository.findOfferById(response.getOfferId());
 
-    if (renter == null) {
-        // Handle case where renter with the given email is not found
-        return "Renter not found";
+        if (renter == null) {
+            // Handle case where renter with the given email is not found
+            return "Renter not found";
+        }
+
+        if (offer == null) {
+            // Handle case where offer with the given ID is not found
+            return "Offer not found";
+        }
+
+        ResponseByRenter responseByRenter = getResponseByRenter(response, renter, offer);
+        //   responseByRenter.setId(2);
+
+        try {
+            offer.getResponses().add(responseByRenter);
+           // System.out.println(offer.getResponses().get(1).getPrice());
+           // System.out.println(responseByRenter.getPrice());
+            responseByRenterRepository.save(responseByRenter);
+            // Add the response to the offer's responses list
+            offerByOwnerRepository.save(offer);
+            return "Dodano zapytanie";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to send request"; // Handle exception appropriately
+        }
     }
 
-    if (offer == null) {
-        // Handle case where offer with the given ID is not found
-        return "Offer not found";
+    private static ResponseByRenter getResponseByRenter(ResponseToOfferDTO response, Renter renter, OfferByOwner offer) {
+        ResponseByRenter responseByRenter = new ResponseByRenter();
+        responseByRenter.setRenter(renter);
+        // List<Renter> renters = responseByRenter.getRenter();
+        //renters.add(renter);
+        // responseByRenter.setRenter(renters);
+        responseByRenter.setStartRentDate(response.getStart());
+        responseByRenter.setEndRentDate(response.getEnd());
+        responseByRenter.setPrice(response.getPrice());
+        responseByRenter.setOffer(offer); // Set the offer association
+        responseByRenter.setStatus(ResponseByRenterStatus.ON_AUCTION);
+        return responseByRenter;
     }
-
-    ResponseByRenter responseByRenter = new ResponseByRenter();
-    responseByRenter.setRenter(renter);
-    responseByRenter.setStartRentDate(response.getStart());
-    responseByRenter.setEndRentDate(response.getEnd());
-    responseByRenter.setPrice(response.getPrice());
-    responseByRenter.setOffer(offer); // Set the offer association
-
-    try {
-        responseByRenterRepository.save(responseByRenter);
-        // Add the response to the offer's responses list
-        offer.getResponses().add(responseByRenter);
-        offerByOwnerRepository.save(offer);
-        return "Dodano zapytanie";
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Failed to send request"; // Handle exception appropriately
-    }
-}
 
 }

@@ -20,11 +20,14 @@ public interface OfferByOwnerRepository extends JpaRepository<OfferByOwner, Long
 
     OfferByOwner findOfferById(long id);
 
+    OfferByOwner findOfferByMachineId(long machineId);
+
 
     @Modifying
     @Query("DELETE FROM OfferByOwner o WHERE o.machine.id = :machineId")
     void deleteOfferByMachineId(@Param("machineId") long machineId);
 
+    @Query("SELECT o FROM OfferByOwner o LEFT JOIN FETCH o.machine WHERE o.status='ON_AUCTION'")
     List<OfferByOwner> findAll();
 
     @Query("select o from OfferByOwner o where o.owner.id= :ownerId and o.status='ON_AUCTION'")
